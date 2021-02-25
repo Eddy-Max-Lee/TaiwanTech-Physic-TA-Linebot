@@ -163,7 +163,7 @@ def handle_message(event):
 
         elif 'QA' in RECEIVE:
             #mode = "QA"
-            sheet_QA_tody = gss_client.create_by_key(spreadsheet_key)("Python測試用模板", parent_id="1l-RT4KyPTG2Jt_s9jmMXHqmgo0h7xLTv")
+            sheet_QA_tody = gss_client.add_worksheet(title="A worksheet", rows="100", cols="20")
             #sheet_QA = gss_client.open_by_key(spreadsheet_key).worksheet('QA')
             sheet_Bonus = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
             #QA_count_tody = int(sheet_QA.cell(95, 2).value)
