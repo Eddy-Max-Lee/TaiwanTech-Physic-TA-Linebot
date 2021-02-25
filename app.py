@@ -162,13 +162,13 @@ def handle_message(event):
             REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判!'
 
         elif 'QA' in RECEIVE:
-            mode = "QA"
+            #mode = "QA"
             sheet_QA_tody = gss_client.create_by_key(spreadsheet_key)("Python測試用模板", parent_id="1l-RT4KyPTG2Jt_s9jmMXHqmgo0h7xLTv")
             #sheet_QA = gss_client.open_by_key(spreadsheet_key).worksheet('QA')
             sheet_Bonus = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
-            QA_count_tody = int(sheet_QA.cell(95, 2).value)
+            #QA_count_tody = int(sheet_QA.cell(95, 2).value)
             #sheet.update_cell(97, 5,  line_bot_api.get_room_member_profile(GID_noko)('user_id'))
-            REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判!'
+            REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判喔!'
 
 
         elif "/say" in RECEIVE: #宣布事項到群組(回復老師)
