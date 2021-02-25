@@ -159,7 +159,7 @@ def handle_message(event):
             sheet = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
             sheet.update_cell(97, 2,  event.source.group_id)
             #sheet.update_cell(97, 5,  line_bot_api.get_room_member_profile(GID_noko)('user_id'))
-            REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判!'
+            REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判喔!'
 
         elif 'QA' in RECEIVE:
             #mode = "QA"
