@@ -189,8 +189,8 @@ def handle_message(event):
             sheet_Bonus.update_cell(1, str(add_count + 4), QA_ws_name)  # 標題
 
             try:
-                line_bot_api.push_message(GID_Test, TextSendMessage(text="========本題已停止作答========")) #GID_noko
-                line_bot_api.push_message(GID_Test, TextSendMessage(text=QA_ws_name +":\n  答對"+right_stu+"人\n  共"+ans_stu+"人作答"))  # GID_noko
+                line_bot_api.push_message(GID_noko, TextSendMessage(text="========本題已停止作答========")) #GID_noko
+                line_bot_api.push_message(GID_noko, TextSendMessage(text=QA_ws_name +":\n  答對"+right_stu+"人\n  共"+ans_stu+"人作答"))  # GID_noko
             except LineBotApiError as e:
                 # error handle
                 raise e
@@ -243,7 +243,7 @@ def handle_message(event):
 
 
             try:
-                line_bot_api.push_message(GID_Test, TextSendMessage(text=QA_ws_name+"開始作答!作答格式如下:\n\n學號 A:答案\n\nEx:\nB10900022 A:67.8")) #GID_noko
+                line_bot_api.push_message(GID_noko, TextSendMessage(text=QA_ws_name+"開始作答!作答格式如下:\n\n學號 A:答案\n\nEx:\nB10900022 A:67.8")) #GID_noko
             except LineBotApiError as e:
                 # error handle
                 raise e
