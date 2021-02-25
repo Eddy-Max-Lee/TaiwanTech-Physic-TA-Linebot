@@ -12,7 +12,7 @@ from linebot.models import *
 import gspread
 import time
 from oauth2client.service_account import ServiceAccountCredentials
-
+###21210203 Deployee到heroku成功pta2
 
 auth_json_path = 'P-TA-702e4ead397e.json'
 gss_scopes = ['https://spreadsheets.google.com/feeds']
@@ -21,9 +21,10 @@ gss_scopes = ['https://spreadsheets.google.com/feeds']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(auth_json_path, gss_scopes)
 gss_client = gspread.authorize(credentials)
 # 開啟 Google Sheet 資料表
-spreadsheet_key = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0'
+spreadsheet_key_109fall = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0'
+spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 '''
-當需要換一頁時
+當需要連結一新表單時
 1u4-k9auXaFgaYFA3kfQbp57AfF_fQUVKMbkHwSvyqng  
 1. 更改spreadsheet_key(來自網址) https://docs.google.com/spreadsheets/d/<<1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0>>/edit#gid=0
 2. 然後把p-ta-sheet@p-ta-271611.iam.gserviceaccount.com 加為編輯者
@@ -96,7 +97,7 @@ def look_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
 
 
 
-    if List_Checked[Student_Index] == "0":
+    if List_Checked[Student_Index] == "0": #還沒查成績
         sheet.update_cell(Student_Index + 1, 4 + 4 +4, "1")
         if int(List_Score_total[Student_Index]) < 60 :
             return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分，\n本學期總成績為"+ List_Score_total[Student_Index] +"\n今年9月見囉~"
@@ -114,7 +115,8 @@ GID_stu =  "Ceb359316111f7cf2b022ce1a31579193"
 GID_tch =  "Ceb359316111f7cf2b022ce1a31579193"
 GID_FAT =  "C7891f464a14727a3655e23cd4d161ffd"
 GID_noko0 = "C536a63270b1471342e92c624ba3e27e6"
-GID_noko = "Cf35077badae654eee6be5536ab529121"
+GID_noko = "Cf35077badae654eee6be5536ab529121" #109學年大群
+GID_Test = "C536a63270b1471342e92c624ba3e27e6" #測試
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -156,6 +158,15 @@ def handle_message(event):
         elif '這位是新來的物理助教' == RECEIVE:
             sheet = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
             sheet.update_cell(97, 2,  event.source.group_id)
+            #sheet.update_cell(97, 5,  line_bot_api.get_room_member_profile(GID_noko)('user_id'))
+            REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判!'
+
+        elif 'QA' in RECEIVE:
+            mode = "QA"
+            sheet_QA_tody = gss_client.create_by_key(spreadsheet_key)("Python測試用模板", parent_id="1l-RT4KyPTG2Jt_s9jmMXHqmgo0h7xLTv")
+            #sheet_QA = gss_client.open_by_key(spreadsheet_key).worksheet('QA')
+            sheet_Bonus = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
+            QA_count_tody = int(sheet_QA.cell(95, 2).value)
             #sheet.update_cell(97, 5,  line_bot_api.get_room_member_profile(GID_noko)('user_id'))
             REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判!'
 
