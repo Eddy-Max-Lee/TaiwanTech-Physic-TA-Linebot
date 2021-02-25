@@ -28,7 +28,7 @@ spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 1u4-k9auXaFgaYFA3kfQbp57AfF_fQUVKMbkHwSvyqng  
 1. 更改spreadsheet_key(來自網址) https://docs.google.com/spreadsheets/d/<<1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0>>/edit#gid=0
 2. 然後把p-ta-sheet@p-ta-271611.iam.gserviceaccount.com 加為編輯者
-
+3.deploy pta3 with Github Desktop
 
 '''
 
