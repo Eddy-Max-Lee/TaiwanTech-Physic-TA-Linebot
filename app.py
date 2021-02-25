@@ -28,6 +28,7 @@ spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 1u4-k9auXaFgaYFA3kfQbp57AfF_fQUVKMbkHwSvyqng  
 1. 更改spreadsheet_key(來自網址) https://docs.google.com/spreadsheets/d/<<1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0>>/edit#gid=0
 2. 然後把p-ta-sheet@p-ta-271611.iam.gserviceaccount.com 加為編輯者
+3. 改Line webhook(https://manager.line.biz/account/@642xozso/setting/messaging-api)為 https://pta2.herokuapp.com/callback
 3.deploy pta3 with Github Desktop
 
 '''
@@ -107,7 +108,22 @@ def look_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
         return Name + "你查過了啦! 阿你是要查幾遍啦!?\n(如果你其實沒有查過，請告知宜運助教~)"
 
 
+def ans_quest(RECEIVE, ws_QA_today):  # 回答問題
+    ID = RECEIVE[0:9]
 
+
+    if "b" or "B" and " A:" in RECEIVE:
+        List_id = ws_QA_today.col_values(1)  # 讀取第2欄的一整欄
+        List_name = ws_QA_today.col_values(3)  # 讀取第3欄的一整欄
+        Student_Index = List_id.index(ID.capitalize())  #找這個人在哪
+        if ws_QA_today.cell(Student_Index+1, 4).value == "NOTHING": #4代表把答案寫在第4欄(D)
+            ws_QA_today.update_cell(Student_Index+1, 4, RECEIVE[RECEIVE.find(":") + 1:len(RECEIVE)]) # 寫答案
+            return "已收到"+List_name[Student_Index] + "同學的答案"
+        else:
+            return "笑死 還想改答案呀"
+
+    else:
+        return "請按照格式回答問題!"
 # GLOBAL
 mode = "一般"
 ID = "M10812019"
@@ -122,6 +138,7 @@ GID_Test = "C536a63270b1471342e92c624ba3e27e6" #測試
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global mode
+    global QA_ws_name
     RECEIVE = event.message.text
    # TALKER = event.message.
 
@@ -142,13 +159,53 @@ def handle_message(event):
         else:
             REPLY = add_point(RECEIVE)
 
+    if mode == "QA":
+        if "/enddd" == RECEIVE:
+            mode = "一般"
+            sheet_QA_tody =  gss_client.open_by_key(spreadsheet_key).worksheet(QA_ws_name)
+            ans_stu = sheet_QA_tody.cell(2,8).value
+            right_stu = sheet_QA_tody.cell(2,9).value
+
+            #將加分寫入Bonus
+            sheet_Bonus = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
+            add_count = int(sheet_Bonus.cell(95, 2).value)
+            sheet_Bonus.update_cell(95, 2, str(add_count+1))
+
+            # 拉出List貼過來
+            List_qa_bonus = sheet_QA_tody.col_values(5)  # 讀取第4欄的一整欄
+           # cell_pre_bonus = sheet_Bonus.col_values(add_count+4)
+            cell_pre_bonus = sheet_Bonus.range(1,add_count+4, len(List_qa_bonus),add_count+4)
+
+            i = 1
+            while i <len(cell_pre_bonus):
+                if List_qa_bonus[i] == 'NOTHING':
+                    cell_pre_bonus[i].value = 0
+                else:
+                    cell_pre_bonus[i].value=List_qa_bonus[i]
+                i+=1
+
+
+            sheet_Bonus.update_cells(cell_pre_bonus, value_input_option='RAW')
+            sheet_Bonus.update_cell(1, str(add_count + 4), QA_ws_name)  # 標題
+
+            try:
+                line_bot_api.push_message(GID_Test, TextSendMessage(text="========本題已停止作答========")) #GID_noko
+                line_bot_api.push_message(GID_Test, TextSendMessage(text=QA_ws_name +":\n  答對"+right_stu+"人\n  共"+ans_stu+"人作答"))  # GID_noko
+            except LineBotApiError as e:
+                # error handle
+                raise e
+
+            REPLY = "回到一般模式"
+        else:
+            REPLY = ans_quest(RECEIVE, gss_client.open_by_key(spreadsheet_key).worksheet(QA_ws_name))
+
     elif mode == "一般":
         if "/addd" == RECEIVE: #轉換成加分模式的瞬間
             mode = "加分"
             sheet = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
             add_count = int(sheet.cell(95, 2).value)
             sheet.update_cell(95, 2, str(add_count+1))
-            sheet.update_cell(1, str(add_count+1+3), time.strftime("%m月%d日",time.localtime()))
+            sheet.update_cell(1, str(add_count+1+3), time.strftime("%m月%d日",time.localtime()) + "-抽點")
             REPLY = time.strftime("加分模式已啟動!今天是%y/%m/%d(%a)\n第"+str(add_count+1)+"次加分", time.localtime())
             try:
                 line_bot_api.push_message(GID_noko, TextSendMessage(text='請剛剛上課的同學按照:\n   學號 + 幾分\n的格式告訴我你要加幾分\n範例:\nb10912019 +5\n當我回復時才代表有成功喔~'))
@@ -161,14 +218,37 @@ def handle_message(event):
             #sheet.update_cell(97, 5,  line_bot_api.get_room_member_profile(GID_noko)('user_id'))
             REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判喔!'
 
-        elif 'QA' in RECEIVE:
-            #mode = "QA"
-            sheet_QA_tody = gss_client.add_worksheet(title="A worksheet", rows="100", cols="20")
-            #sheet_QA = gss_client.open_by_key(spreadsheet_key).worksheet('QA')
-            sheet_Bonus = gss_client.open_by_key(spreadsheet_key).worksheet('Bonus')
-            #QA_count_tody = int(sheet_QA.cell(95, 2).value)
-            #sheet.update_cell(97, 5,  line_bot_api.get_room_member_profile(GID_noko)('user_id'))
-            REPLY = '各位同學好! 我對你們的要求只有三件事:白天工作，晚上讀書，假日批判喔!'
+        elif '/QA ' in RECEIVE:
+            mode = "QA"
+            ans = str(RECEIVE[4:len(RECEIVE)]) #設定的解答
+            sheet = gss_client.open_by_key(spreadsheet_key)
+            ws_QAControl = sheet.worksheet('QA控制')
+
+            today_qa_count = int(ws_QAControl.cell(2, 2).value) +1  #讀取這是今天第幾題
+            ws_QAControl.update_cell(2,2,today_qa_count) #更新本日題號
+            ws_QAControl.update_cell(3, 2, ans)#設定解答一
+
+            timeStr = time.strftime("%m月%d日", time.localtime())
+            QA_ws_name = 'Q-'+timeStr+"-" + str(today_qa_count)
+
+
+
+
+            sheet_QA_Template = gss_client.open_by_key(spreadsheet_key_109fall).worksheet('QA')
+            junk_dict = sheet_QA_Template.copy_to(spreadsheet_key)
+
+            junk_dict = gss_client.open_by_key(spreadsheet_key).worksheet('「QA」的副本').update_title(QA_ws_name)
+            sheet_QA_tody = sheet.worksheet(QA_ws_name)
+            sheet_QA_tody.update_cell(1, 4, ans)  # 設定解答2
+
+
+            try:
+                line_bot_api.push_message(GID_Test, TextSendMessage(text=QA_ws_name+"開始作答!作答格式如下:\n\n學號 A:答案\n\nEx:\nB10900022 A:67.8")) #GID_noko
+            except LineBotApiError as e:
+                # error handle
+                raise e
+
+            REPLY = QA_ws_name + "已開放同學作答"
 
 
         elif "/say" in RECEIVE: #宣布事項到群組(回復老師)
