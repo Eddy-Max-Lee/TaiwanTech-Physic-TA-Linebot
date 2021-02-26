@@ -24,6 +24,7 @@ gss_client = gspread.authorize(credentials)
 spreadsheet_key_109fall = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0'
 spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 '''
+
 當需要連結一新表單時
 1u4-k9auXaFgaYFA3kfQbp57AfF_fQUVKMbkHwSvyqng  
 1. 更改spreadsheet_key(來自網址) https://docs.google.com/spreadsheets/d/<<1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0>>/edit#gid=0
@@ -31,6 +32,9 @@ spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 3. 改Line webhook(https://manager.line.biz/account/@642xozso/setting/messaging-api)為 https://pta2.herokuapp.com/callback
 3.deploy pta3 with Github Desktop
 
+
+Google sheet API Library
+https://gspread.readthedocs.io/en/latest/api.html
 '''
 
 
