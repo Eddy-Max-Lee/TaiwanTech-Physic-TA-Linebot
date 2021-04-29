@@ -21,7 +21,7 @@ gss_scopes = ['https://spreadsheets.google.com/feeds']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(auth_json_path, gss_scopes)
 gss_client = gspread.authorize(credentials)
 # 開啟 Google Sheet 資料表
-spreadsheet_key_109fall = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0' 
+spreadsheet_key_109fall = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0'
 spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 '''
 
@@ -31,7 +31,7 @@ spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 2. 然後把p-ta-sheet@p-ta-271611.iam.gserviceaccount.com 加為編輯者
 3. 改Line webhook(https://manager.line.biz/account/@642xozso/setting/messaging-api)為 https://pta2.herokuapp.com/callback
 3.deploy pta3 with Github Desktop
-
+4."搜尋"#考試要改"
 
 Google sheet API Library
 https://gspread.readthedocs.io/en/latest/api.html
@@ -90,24 +90,24 @@ def add_point(RECEIVE):  # 之後要判斷資料庫中是否有此人
 def look_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
     Name = RECEIVE[2:5]
     sheet = gss_client.open_by_key(spreadsheet_key).worksheet('Exam')
-    add_count_plus = 18  #第三次小考
+    add_count_plus = 1  #第一次小考 #考試要改
 
 
     List_name = sheet.col_values(3)  # 讀取第3欄的一整欄
     List_Score = sheet.col_values(4+add_count_plus-1)  # 讀取成績欄
-    List_Score_total = sheet.col_values(4 + add_count_plus )  # 讀取成績欄
-    #List_Checked = sheet.col_values(4 + add_count_plus +4)  # 讀取已查欄
-    List_Checked = sheet.col_values(4 + 4 + 4)  # 讀取已查欄
+    #List_Score_total = sheet.col_values(4 + add_count_plus )  # 讀取總成績欄
+    List_Checked = sheet.col_values(4 + add_count_plus -1+5)  # 讀取已查欄
+    #List_Checked = sheet.col_values(4 + 4 + 4)  # 讀取已查欄
     Student_Index = List_name.index(Name) #找這個人在哪
 
 
 
     if List_Checked[Student_Index] == "0": #還沒查成績
-        sheet.update_cell(Student_Index + 1, 4 + 4 +4, "1")
-        if int(List_Score_total[Student_Index]) < 60 :
-            return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分，\n本學期總成績為"+ List_Score_total[Student_Index] +"\n今年9月見囉~"
+        sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+5, "1")
+        if int(List_Score[Student_Index]) < 60 :
+            return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分" #，\n本學期總成績為" + List_Score_total[Student_Index] +"\n今年9月見囉~"
         else:
-            return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分，\n本學期總成績為"+ List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
+            return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分"#，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
     else:
         return Name + "你查過了啦! 阿你是要查幾遍啦!?\n(如果你其實沒有查過，請告知宜運助教~)"
 
@@ -282,8 +282,8 @@ def handle_message(event):
                 # Cbe5130080e22bb10fa1808e05bdb7572
                 raise e
         elif "/looking" in RECEIVE:
-            try:
-                line_bot_api.push_message(GID_noko, TextSendMessage(text="第二次小考開放查成績囉~ 請同學私我(量子物理大師)查成績! 跟我說話時，請按照以下格式:\n\n我是xxx，我要查成績!\n\n記住喔!成績我只會說一次，請自己查自己的，請不要偷查暗戀ㄉ人ㄉ成績，謝些!"))
+            try: #考試要改
+                line_bot_api.push_message(GID_noko, TextSendMessage(text="第一次小考開放查成績囉~ 請同學私我(量子物理大師)查成績! 跟我說話時，請按照以下格式:\n\n我是xxx，我要查成績!\n\n記住喔!成績我只會說一次，請自己查自己的，請不要偷查暗戀ㄉ人ㄉ成績，謝些!"))
             except LineBotApiError as e:
                 # error handle
                 # Cbe5130080e22bb10fa1808e05bdb7572
