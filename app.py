@@ -105,9 +105,9 @@ def look_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
     if List_Checked[Student_Index] == "0": #還沒查成績
         sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+5, "1")
         if int(List_Score[Student_Index]) < 60 :
-            return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分" #，\n本學期總成績為" + List_Score_total[Student_Index] +"\n今年9月見囉~"
+            return RECEIVE[3:5]+"你的第一次小考" + List_Score[Student_Index] + "分" #，\n本學期總成績為" + List_Score_total[Student_Index] +"\n今年9月見囉~"
         else:
-            return RECEIVE[3:5]+"你的第四次小考" + List_Score[Student_Index] + "分"#，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
+            return RECEIVE[3:5]+"你的第一次小考" + List_Score[Student_Index] + "分"#，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
     else:
         return Name + "你查過了啦! 阿你是要查幾遍啦!?\n(如果你其實沒有查過，請告知宜運助教~)"
 
