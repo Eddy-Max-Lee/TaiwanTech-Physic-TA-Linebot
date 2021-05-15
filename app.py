@@ -21,7 +21,7 @@ gss_scopes = ['https://spreadsheets.google.com/feeds']
 credentials = ServiceAccountCredentials.from_json_keyfile_name(auth_json_path, gss_scopes)
 gss_client = gspread.authorize(credentials)
 # 開啟 Google Sheet 資料表
-spreadsheet_key_108fall = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0'
+spreadsheet_key_109fall = '1UROGY5ZJyO8NXZsV0pD5OK9xzqm0bg9lEto0V9qq-E0'
 spreadsheet_key = '1V4uWY8Hyyho0AnBmDlW7Yq5QznFuGKxY6KQ_GYzoKe8'
 spreadsheet_key_test = '1mG46VsgIUcF7c9z3BXm6YuP65tJv9AHKQ7IeJfP7H5k'
 '''
@@ -146,7 +146,7 @@ def take_test_paper(RECEIVE):  # 之後要判斷資料庫中是否有此人
         if List_Checked[Student_Index] == "0": #還沒查成績
             sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+1, "1")
 
-            return RECEIVE[3:5]+"獲得考卷，請點:\n" + Link #，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
+            return RECEIVE[3:5]+"~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/iqgq8YjLG9ynZ6sW9 " # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
         else:
             return Name + "你已經拿過考卷了\n(如果沒有拿到，請告知宜運助教~)"
 
