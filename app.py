@@ -138,14 +138,17 @@ def take_test_paper(RECEIVE):  # 之後要判斷資料庫中是否有此人
     elif List_Score[Student_Index] == 'D':
         Link = List_link[4]
 
+    if "考卷交出來" in RECEIVE: #測試
+        Link = List_link[5]
+        return RECEIVE[3:5] + "沒禮貌的屁孩，這個給你啦:\n" + Link +"\n(測試成功)" # ，\n本學期總成績為" # + List_Score_total[S
 
-
-    if List_Checked[Student_Index] == "0": #還沒查成績
-        sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+1, "1")
-
-        return RECEIVE[3:5]+"獲得考卷，請點:\n" + Link #，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
     else:
-        return Name + "你已經拿過考卷了\n(如果沒有拿到，請告知宜運助教~)"
+        if List_Checked[Student_Index] == "0": #還沒查成績
+            sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+1, "1")
+
+            return RECEIVE[3:5]+"獲得考卷，請點:\n" + Link #，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
+        else:
+            return Name + "你已經拿過考卷了\n(如果沒有拿到，請告知宜運助教~)"
 
 
 def ans_quest(RECEIVE, ws_QA_today):  # 回答問題
@@ -317,7 +320,14 @@ def handle_message(event):
                 # error handle
                 # Cbe5130080e22bb10fa1808e05bdb7572
                 raise e
-        elif "請賜予我考卷吧" in RECEIVE:
+        elif "請賜予我考卷" in RECEIVE:
+            try:
+                REPLY = take_test_paper(RECEIVE)
+            except LineBotApiError as e:
+                # error handle
+                # Cbe5130080e22bb10fa1808e05bdb7572
+                raise e
+        elif "考卷交出來" in RECEIVE:
             try:
                 REPLY = take_test_paper(RECEIVE)
             except LineBotApiError as e:
