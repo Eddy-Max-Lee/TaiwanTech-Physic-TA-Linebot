@@ -126,7 +126,8 @@ def take_test_paper(RECEIVE):  # 之後要判斷資料庫中是否有此人
     #List_Checked = sheet.col_values(4 + 4 + 4)  # 讀取已查欄
     Student_Index = List_name.index(Name) #找這個人在哪
 
-    List_link =  sheet.col_values(6)  # 讀取第6欄的一整欄
+    List_link =  sheet.col_values(8)  # 讀取第8欄的一整欄
+    List_gapps = sheet.col_values(6)  # 讀取第6欄的一整欄
 
     Link = '你沒考卷!'
     if List_Score[Student_Index] == 'A':
@@ -146,7 +147,11 @@ def take_test_paper(RECEIVE):  # 之後要判斷資料庫中是否有此人
         if List_Checked[Student_Index] == "0": #還沒查成績
             sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+1, "1")
 
-            return RECEIVE[3:5]+"~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/iqgq8YjLG9ynZ6sW9 " # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
+            if List_gapps[Student_Index] == "0": #沒註冊gapps
+                return RECEIVE[3:5] + "~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/b8tH5XvisiRherRN7"
+
+            else:
+                return RECEIVE[3:5]+"~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/iqgq8YjLG9ynZ6sW9"
         else:
             return Name + "你已經拿過考卷了\n(如果沒有拿到，請告知宜運助教~)"
 
