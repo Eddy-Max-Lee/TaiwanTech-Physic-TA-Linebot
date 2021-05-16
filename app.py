@@ -150,8 +150,8 @@ def take_test_paper(RECEIVE):  # 之後要判斷資料庫中是否有此人
             if List_gapps[Student_Index] == "0": #沒註冊gapps
                 return RECEIVE[3:5] + "~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/b8tH5XvisiRherRN7"
 
-            else:
-                return RECEIVE[3:5]+"~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/iqgq8YjLG9ynZ6sW9"
+            else:#有註冊gapps
+                return RECEIVE[3:5]+"你沒有GAPPS~ 想獲得題目卷，請點:\n" + Link + "\n答案卷:\nhttps://forms.gle/iqgq8YjLG9ynZ6sW9"
         else:
             return Name + "你已經拿過考卷了\n(如果沒有拿到，請告知宜運助教~)"
 
