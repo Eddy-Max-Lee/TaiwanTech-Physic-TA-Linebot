@@ -101,18 +101,18 @@ def look_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
     #List_Checked = sheet.col_values(4 + 4 + 4)  # 讀取已查欄
     Student_Index = List_name.index(Name) #找這個人在哪
 
-    return Name + "系統出問題，正在解決中!"
-"""
+
+
     if List_Checked[Student_Index] == "0": #還沒查成績
         sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+5, "1")
         if int(List_Score[Student_Index]) < 60 :
-            return RECEIVE[3:5]+"你的第"+str(add_count_plus)+"次小考" + List_Score[Student_Index] + "分，" #，\n本學期總成績為" + List_Score_total[Student_Index] +"\n今年9月見囉~"
+            return RECEIVE[3:5]+"你的第"+str(add_count_plus)+"次小考" + List_Score[Student_Index] + "分，不要氣餒，期末還會有額外的意外調分，"+RECEIVE[3:5]+"加油喔~" #，\n本學期總成績為" + List_Score_total[Student_Index] +"\n今年9月見囉~"
         else:
             return RECEIVE[3:5]+"你的第"+str(add_count_plus)+"次小考" + List_Score[Student_Index] + "分，好棒喔"#，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
     else:
         return Name + "你查過了啦! 阿你是要查幾遍啦!?\n(如果你其實沒有查過，請告知宜運助教~)"
 
-"""
+
 def take_test_paper(RECEIVE):  # 之後要判斷資料庫中是否有此人
     Name = RECEIVE[2:5]
     sheet = gss_client.open_by_key(spreadsheet_key_test).worksheet('Mating')
