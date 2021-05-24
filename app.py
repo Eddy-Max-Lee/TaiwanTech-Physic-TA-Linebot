@@ -198,7 +198,7 @@ def handle_message(event):
         if "/enddd" == RECEIVE:
             mode = "一般"
             try:
-                line_bot_api.push_message(GID_Test, TextSendMessage(text="========加分截止線========")) #test
+                line_bot_api.push_message(GID_noko, TextSendMessage(text="========加分截止線========")) #test
             except LineBotApiError as e:
                 # error handle
                 raise e
@@ -256,7 +256,7 @@ def handle_message(event):
             sheet.update_cell(1, str(add_count+1+3), time.strftime("%m月%d日",time.localtime()) + "-抽點")
             REPLY = time.strftime("加分模式已啟動!今天是%y/%m/%d(%a)\n第"+str(add_count+1)+"次加分", time.localtime())
             try:
-                line_bot_api.push_message(GID_Test, TextSendMessage(text='請剛剛上課的同學按照:\n   學號 + 幾分\n的格式告訴我你要加幾分\n範例:\nb10912019 +5\n當我回復時才代表有成功喔~'))
+                line_bot_api.push_message(GID_noko, TextSendMessage(text='請剛剛上課的同學按照:\n   學號 + 幾分\n的格式告訴我你要加幾分\n範例:\nb10912019 +5\n當我回復時才代表有成功喔~'))
             except LineBotApiError as e:
                 # error handle
                 raise e
