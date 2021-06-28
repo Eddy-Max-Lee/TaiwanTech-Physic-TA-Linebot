@@ -117,7 +117,7 @@ def look_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
 def look_FINAL_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
     Name = RECEIVE[2:5]
     sheet = gss_client.open_by_key(spreadsheet_key).worksheet('Total')
-    add_count_plus = 12  #名後第12行
+    add_count_plus = 11  #名後第12行
 
 
     List_name = sheet.col_values(3)  # 讀取第3欄的一整欄
