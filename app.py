@@ -132,7 +132,7 @@ def look_FINAL_score(RECEIVE):  # 之後要判斷資料庫中是否有此人
     if List_Checked[Student_Index] == "0": #還沒查成績
         sheet.update_cell(Student_Index + 1, 4 + add_count_plus -1+1, "1")
         if List_Score[Student_Index] == 'E' or List_Score[Student_Index] == 'D' or List_Score[Student_Index] == 'F' :
-            return RECEIVE[3:5]+"您本學期總成績為" + List_Score[Student_Index] +"\n今年9月見囉~"
+            return RECEIVE[3:5]+"您本學期總成績為" + List_Score[Student_Index] +"\n我們明年見囉~"
         else:
             return RECEIVE[3:5]+"您本學期總成績為"  + str(List_Score[Student_Index])+ "，恭喜通過!!!!"#，\n本學期總成績為" # + List_Score_total[Student_Index] + "\n恭喜老爺賀喜夫人!"
     else:
