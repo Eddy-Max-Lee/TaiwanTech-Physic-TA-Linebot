@@ -344,9 +344,11 @@ def handle_message(event):
                 # error handle
                 # Cbe5130080e22bb10fa1808e05bdb7572
                 raise e
-        elif "成績" in RECEIVE:
+        elif "期末成績" in RECEIVE:
             try:
-                REPLY = look_score(RECEIVE)
+                #REPLY = look_score(RECEIVE)
+                REPLY = look_FINAL_score(RECEIVE)
+
             except LineBotApiError as e:
                 # error handle
                 # Cbe5130080e22bb10fa1808e05bdb7572
